@@ -1,3 +1,5 @@
+import os
+
 import gradio as gr
 import openai, config, subprocess
 from gtts import gTTS
@@ -28,13 +30,17 @@ def transcribe(audio):
     system_message = response["choices"][0]["message"]
     messages.append(system_message)
 
+    # Stop the music playback and unload the file from mixer if it is playing
+    if pygame.mixer.music.get_busy():
+        pygame.mixer.music.stop()
+    pygame.mixer.music.unload()
+
     tts = gTTS(system_message["content"], lang="en", tld="us", slow=False)
     tts.save("response.mp3")
+
     pygame.mixer.music.load("response.mp3")
     pygame.mixer.music.play()
 
-    while pygame.mixer.music.get_busy() == True:
-        continue
     # subprocess.call(["espeak", system_message["content"]])
 
     chat_transcript = ""
