@@ -1,11 +1,13 @@
-import os
-
+import configparser
 import gradio as gr
-import openai, config, subprocess
+import openai, subprocess
 from gtts import gTTS
 import pygame
 
-openai.api_key = config.OPENAI_API_KEY
+config = configparser.ConfigParser()
+config.read("config.ini")
+
+openai.api_key = config.get("OPENAI_API_KEY", "key")
 
 messages = [
     {
