@@ -1,5 +1,5 @@
 import numpy as np
-from utilities import p,wave_recorder,FORMAT,CHANNELS,RATE,CHUNK,THRESHOLD,wake_word
+from utilities import p,FORMAT,CHANNELS,RATE,CHUNK,THRESHOLD,init_jarvis
 
 # Open audio stream
 stream = p.open(format=FORMAT,
@@ -8,24 +8,22 @@ stream = p.open(format=FORMAT,
                 input=True,
                 frames_per_buffer=CHUNK)
 
-# FOR TESTING PURPOSES - Set up the wave file writer
-wf = wave_recorder()
-
 # Main loop
-def init_jarvis():
+def main():
+
+    print("JARVIS is now listening...")
+    print("*" * 50)
 
     try:
         while True:
             # Read audio data
             data = stream.read(CHUNK)
-            # FOR TESTING PURPOSES - Write data to file
-            wf.writeframes(data)
 
             # Check if the root mean square is above the threshold
             rms = np.sqrt(np.mean(np.square(np.frombuffer(data, dtype=np.int16))))
 
             if rms > THRESHOLD:
-                wake_word()
+                init_jarvis()
 
     except KeyboardInterrupt:
         print("Exiting...")
@@ -34,4 +32,4 @@ def init_jarvis():
         p.terminate()
 
 if __name__ == "__main__":
-    init_jarvis()
+    main()
