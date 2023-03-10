@@ -1,5 +1,6 @@
 import numpy as np
-from utilities import p,FORMAT,CHANNELS,RATE,CHUNK,THRESHOLD,init_jarvis
+from utilities import p,FORMAT,CHANNELS,RATE,CHUNK,THRESHOLD
+from jarvis import init_jarvis
 
 # Open audio stream
 stream = p.open(format=FORMAT,
