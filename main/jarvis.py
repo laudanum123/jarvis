@@ -28,7 +28,6 @@ def init_jarvis() -> None:
             keyword_index = wake_word(wake_word_stream, porcupine)
 
             if keyword_index >= 0:
-                print("Listening...")
                 # Record the user's question
                 frames = record_question(p)
 
@@ -37,6 +36,8 @@ def init_jarvis() -> None:
                 transcript = transcibe_voice("../output.wav")
                 response = transcribe_to_gpt(transcript)
                 print(response)
+    except Exception as e:
+        print(e)
 
     finally:
         # Clean up resources
