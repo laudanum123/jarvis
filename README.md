@@ -42,11 +42,14 @@ Install the dependencies
 pip install -r requirements.txt
 ```
 
-Set up the environment variable
+Set up the OpenAI API key by creating a "config.py" file in the same directory as "main.py" and add the following line
+
+
 
 ```commandline
-setx OPENAI_API "OPENAI_API_KEY"
+API_KEY = 'YOUR_API_KEY'
 ```
+
 
 
 
