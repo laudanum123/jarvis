@@ -1,10 +1,10 @@
 import wave
 import struct
-
 import openai
 import pvporcupine
 import pyaudio
 import configparser
+import os
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -15,6 +15,9 @@ RATE = config.getint('AUDIO', 'rate')
 CHUNK = config.getint('AUDIO', 'chunk')
 THRESHOLD = config.getint('AUDIO', 'threshold')
 WAVE_OUTPUT_FILENAME = "output.wav"
+
+# Set OpenAI API Key
+openai.api_key = os.environ.get('OPENAI_API')
 
 # Initialize PyAudio
 p = pyaudio.PyAudio()
