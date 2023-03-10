@@ -5,9 +5,11 @@ import pvporcupine
 import pyaudio
 import configparser
 import os
+import config as c
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read(os.path.join(os.path.dirname(__file__), '../config.ini'))
+
 
 FORMAT = pyaudio.paInt16
 CHANNELS = config.getint('AUDIO', 'channels')
@@ -15,9 +17,15 @@ RATE = config.getint('AUDIO', 'rate')
 CHUNK = config.getint('AUDIO', 'chunk')
 THRESHOLD = config.getint('AUDIO', 'threshold')
 WAVE_OUTPUT_FILENAME = "../output.wav"
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+CYAN = "\033[36m"
+RESET = "\033[0m"
+
 
 # Set OpenAI API Key
-openai.api_key = os.environ.get('OPENAI_API')
+openai.api_key = c.API_KEY
 
 # Initialize PyAudio
 p = pyaudio.PyAudio()
@@ -67,7 +75,7 @@ def record_question(p: pyaudio.PyAudio) -> list[bytes]:
                              input=True,
                              frames_per_buffer=CHUNK)
 
-    print("* recording")
+    print(RED + "Recording..." + RESET)
 
     # Create an empty list to store the audio frames
     frames = []
@@ -77,7 +85,7 @@ def record_question(p: pyaudio.PyAudio) -> list[bytes]:
         data = question_stream.read(CHUNK)
         frames.append(data)
 
-    print("* done recording")
+    print(GREEN + "Recording Complete" + RESET)
 
     # Return the recorded audio frames
     return frames
@@ -131,7 +139,9 @@ def transcribe_to_gpt(transcript):
 
     chat_transcript = ""
     for message in messages:
-        if message["role"] != "system":
-            chat_transcript += message["role"] + ": " + message["content"] + "\n\n"
+        if message["role"] == "user":
+            chat_transcript += CYAN + message["role"].title() + ": " + message["content"] + RESET + "\n" + "-" * 50 + "\n"
+        elif message["role"] == "assistant":
+            chat_transcript += YELLOW + message["role"].title() + ": " + message["content"] + RESET + "\n"
 
     return chat_transcript
