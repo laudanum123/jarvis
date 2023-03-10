@@ -1,5 +1,6 @@
 import wave
 import struct
+
 import openai
 import pvporcupine
 import pyaudio
@@ -98,44 +99,36 @@ def wake_word(stream: pyaudio.Stream, porcupine: pvporcupine.Porcupine) -> int:
     # Process the audio frame and return the keyword index
     return porcupine.process(pcm)
 
+def transcibe_voice(path):
+
+    audio_file = open(path, "rb")
+    transcript = openai.Audio.transcribe("whisper-1", audio_file)
+
+    return transcript
 
 
-def init_jarvis() -> None:
-    """
-    Initializes the Jarvis voice assistant and runs the main loop.
+messages = [
+    {
+        "role": "system",
+        "content": "You are a helpful AI assistant.",
+    }
+]
+def transcribe_to_gpt(transcript):
+    global messages
 
-    Returns:
-        None.
-    """
 
-    try:
-        # Create a Porcupine instance with the Jarvis keyword
-        porcupine = pvporcupine.create(keywords=['jarvis'])
+    messages.append({"role": "user", "content": transcript["text"]})
 
-        # Open an audio stream for the wake word detector
-        wake_word_stream = p.open(rate=porcupine.sample_rate,
-                                  channels=1,
-                                  format=pyaudio.paInt16,
-                                  input=True,
-                                  frames_per_buffer=porcupine.frame_length)
+    response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
 
-        # Main loop
-        while True:
-            # Listen for the wake word
-            keyword_index = wake_word(wake_word_stream, porcupine)
+    system_message = response["choices"][0]["message"]
+    messages.append(system_message)
 
-            if keyword_index >= 0:
-                print("Listening...")
-                # Record the user's question
-                frames = record_question(p)
+    # subprocess.call(["espeak", system_message["content"]])
 
-                # Save the recorded audio to a WAV file
-                wave_recorder(frames)
-                audio_file = open("output.wav", "rb")
-                transcript = openai.Audio.transcribe("whisper-1", audio_file)
-                print(transcript)
+    chat_transcript = ""
+    for message in messages:
+        if message["role"] != "system":
+            chat_transcript += message["role"] + ": " + message["content"] + "\n\n"
 
-    finally:
-        # Clean up resources
-        if porcupine is not None:
-            porcupine.delete()
+    return chat_transcript
