@@ -14,7 +14,7 @@ CHANNELS = config.getint('AUDIO', 'channels')
 RATE = config.getint('AUDIO', 'rate')
 CHUNK = config.getint('AUDIO', 'chunk')
 THRESHOLD = config.getint('AUDIO', 'threshold')
-WAVE_OUTPUT_FILENAME = "output.wav"
+WAVE_OUTPUT_FILENAME = "../output.wav"
 
 # Set OpenAI API Key
 openai.api_key = os.environ.get('OPENAI_API')
@@ -35,7 +35,7 @@ def wave_recorder(frames: list[bytes]) -> None:
     """
 
     # Create a new wave file with the given filename
-    wf = wave.open("output.wav", "wb")
+    wf = wave.open("../output.wav", "wb")
 
     # Set the audio parameters for the wave file
     wf.setnchannels(CHANNELS)

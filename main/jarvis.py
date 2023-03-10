@@ -34,7 +34,7 @@ def init_jarvis() -> None:
 
                 # Save the recorded audio to a WAV file
                 wave_recorder(frames)
-                transcript = transcibe_voice("output.wav")
+                transcript = transcibe_voice("../output.wav")
                 response = transcribe_to_gpt(transcript)
                 print(response)
 

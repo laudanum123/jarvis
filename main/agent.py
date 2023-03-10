@@ -40,7 +40,7 @@ def transcribe(audio):
     tts = gTTS(system_message["content"], lang="en", tld="us", slow=False)
     tts.save("response.mp3")
 
-    pygame.mixer.music.load("response.mp3")
+    pygame.mixer.music.load("../response.mp3")
     pygame.mixer.music.play()
 
     # subprocess.call(["espeak", system_message["content"]])
