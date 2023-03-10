@@ -42,10 +42,18 @@ Install the dependencies
 pip install -r requirements.txt
 ```
 
-Run the following comand
+Set up the environment variable
+
+```commandline
+setx OPENAI_API "OPENAI_API_KEY"
+```
+
+
+
+Run the following CMD command
 
 ```
-main.py
+python main.py
 ```
     
 ## Roadmap <img src="./static/microphone_icon.png" alt="microphone icon" width="25" height="25">
