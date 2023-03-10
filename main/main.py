@@ -12,8 +12,8 @@ stream = p.open(format=FORMAT,
 # Main loop
 def main():
 
-    print("JARVIS is now listening...")
-    print("*" * 50)
+    print("Jarvis is now listening... (Activate by saying 'Jarvis' and press Ctrl+C to exit)")
+    print("=" * 81)
 
     try:
         while True:
