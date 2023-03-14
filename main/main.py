@@ -12,7 +12,7 @@ stream = p.open(format=FORMAT,
 # Main loop
 def main():
 
-    print("Jarvis is now listening... (Activate by saying 'Jarvis' and press Ctrl+C to exit)")
+    print("Jarvis is now listening... (Activate by saying 'Jarvis' or press Ctrl+C to exit)")
     print("=" * 81)
 
     try:
