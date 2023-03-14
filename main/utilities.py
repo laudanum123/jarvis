@@ -1,3 +1,4 @@
+import numpy as np
 import wave
 import struct
 import openai
@@ -80,10 +81,32 @@ def record_question(p: pyaudio.PyAudio) -> list[bytes]:
     # Create an empty list to store the audio frames
     frames = []
 
-    # Record audio frames for 5 seconds
-    for i in range(0, int(RATE / CHUNK * 5)):
+    # Initialize variables for silence detection
+    silence_threshold = THRESHOLD  # Adjust this value to set the silence threshold
+    silence_duration = 0
+    is_recording = False
+
+    # Record audio frames until there is no speech for 2 seconds
+    while True:
         data = question_stream.read(CHUNK)
-        frames.append(data)
+        rms = np.sqrt(np.mean(np.square(np.frombuffer(data, dtype=np.int16))))
+
+        # If the RMS value is above the silence threshold, start recording
+        if rms > silence_threshold:
+            is_recording = True
+            silence_duration = 0
+
+        # If the RMS value is below the silence threshold, increment the silence duration
+        else:
+            silence_duration += 1
+
+        # If we have been silent for 2 seconds, stop recording
+        if is_recording and silence_duration > int(RATE / CHUNK * 2):
+            break
+
+        # Append the audio frame to the list of frames if we are recording
+        if is_recording:
+            frames.append(data)
 
     print(GREEN + "Recording Complete" + RESET)
 
@@ -144,4 +167,4 @@ def transcribe_to_gpt(transcript):
         elif message["role"] == "assistant":
             chat_transcript += YELLOW + message["role"].title() + ": " + message["content"] + RESET + "\n"
 
-    return chat_transcript
+    return chat_transcript,system_message["content"]
