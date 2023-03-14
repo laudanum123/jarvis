@@ -1,3 +1,4 @@
+import tts
 import pvporcupine
 import pyaudio
 from utilities import p, wake_word, record_question, wave_recorder,transcibe_voice,transcribe_to_gpt
@@ -35,7 +36,10 @@ def init_jarvis() -> None:
                 wave_recorder(frames)
                 transcript = transcibe_voice("../output.wav")
                 response = transcribe_to_gpt(transcript)
-                print(response)
+                print(response[0])
+                tts.speak(response[1])
+
+
     except Exception as e:
         print(e)
 
