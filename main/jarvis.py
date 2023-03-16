@@ -11,6 +11,7 @@ def init_jarvis() -> None:
     Returns:
         None.
     """
+    porcupine = None
 
     try:
         # Create a Porcupine instance with the Jarvis keyword
