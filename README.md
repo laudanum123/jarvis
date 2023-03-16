@@ -15,16 +15,38 @@ Introducing Jarvis, your personal speech-activated assistant! Our goal is to del
 
 
 
+## Run Locally <img src="./static/microphone_icon.png" alt="microphone icon" width="25" height="25">
+
+Clone the project
+
+```bash
+  git clone https://github.com/laudanum123/jarvis.git
+```
+
+Set up OpenAI's API key by creating a "config.py" file in the same directory as "main.py" and add the following:
 
 
+```commandline
+API_KEY = 'YOUR_API_KEY'
+```
+Install dependencies
 
+```bash
+  pip install -r requirements.txt
+```
 
+Go to the project directory
 
+```bash
+  cd jarvis/main
+```
 
-## Authors <img src="./static/microphone_icon.png" alt="microphone icon" width="25" height="25">
+Start Jarvis
 
-- [@laudanum123](https://github.com/laudanum123)
-- [@YazidKurdi](https://github.com/YazidKurdi)
+```bash
+  python main.py
+```
+
 
 
 ## Contributing <img src="./static/microphone_icon.png" alt="microphone icon" width="25" height="25">
@@ -33,31 +55,6 @@ Contributions are always welcome!
 
 We're happy to accept pull requests! If you're planning on making big changes, it'd be great if you could open an issue first so we can talk about it.
 
-
-## Installation <img src="./static/microphone_icon.png" alt="microphone icon" width="25" height="25">
-
-Install the dependencies
-
-```
-pip install -r requirements.txt
-```
-
-Set up the OpenAI API key by creating a "config.py" file in the same directory as "main.py" and add the following line
-
-
-
-```commandline
-API_KEY = 'YOUR_API_KEY'
-```
-
-
-
-
-Run the following CMD command
-
-```
-python main.py
-```
     
 ## Roadmap <img src="./static/microphone_icon.png" alt="microphone icon" width="25" height="25">
 
@@ -79,6 +76,10 @@ python main.py
 
 
 
+## Authors <img src="./static/microphone_icon.png" alt="microphone icon" width="25" height="25">
+
+- [@laudanum123](https://github.com/laudanum123)
+- [@YazidKurdi](https://github.com/YazidKurdi)
 
 
 
