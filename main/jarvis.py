@@ -1,7 +1,14 @@
 import tts
 import pvporcupine
 import pyaudio
-from utilities import p, wake_word, record_question, wave_recorder,transcibe_voice,transcribe_to_gpt
+from utilities import (
+    p,
+    wake_word,
+    record_question,
+    wave_recorder,
+    transcibe_voice,
+    transcribe_to_gpt,
+)
 
 
 def init_jarvis() -> None:
@@ -15,14 +22,16 @@ def init_jarvis() -> None:
 
     try:
         # Create a Porcupine instance with the Jarvis keyword
-        porcupine = pvporcupine.create(keywords=['jarvis'])
+        porcupine = pvporcupine.create(keywords=["jarvis"])
 
         # Open an audio stream for the wake word detector
-        wake_word_stream = p.open(rate=porcupine.sample_rate,
-                                  channels=1,
-                                  format=pyaudio.paInt16,
-                                  input=True,
-                                  frames_per_buffer=porcupine.frame_length)
+        wake_word_stream = p.open(
+            rate=porcupine.sample_rate,
+            channels=1,
+            format=pyaudio.paInt16,
+            input=True,
+            frames_per_buffer=porcupine.frame_length,
+        )
 
         # Main loop
         while True:
@@ -39,7 +48,6 @@ def init_jarvis() -> None:
                 response = transcribe_to_gpt(transcript)
                 print(response[0])
                 tts.speak(response[1])
-
 
     except Exception as e:
         print(e)

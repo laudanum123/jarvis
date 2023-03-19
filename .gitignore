@@ -131,3 +131,4 @@ config.py
 config.ini
 response.mp3
 .envrc
+output.wav
