@@ -11,6 +11,22 @@ import config as c
 config = configparser.ConfigParser()
 config.read(os.path.join(os.path.dirname(__file__), "../config.ini"))
 
+# Read available personas from the personas.ini file
+personas_config = configparser.ConfigParser()
+personas_config.read(os.path.join(os.path.dirname(__file__), "../personas.ini"))
+personas = personas_config.sections()
+
+# Prompt the user to select a persona
+print("Available personas:")
+for idx, persona in enumerate(personas):
+    print(f"{idx + 1}. {persona}")
+
+selected_persona = int(input("Select a persona (enter the number): ")) - 1
+persona_name = personas[selected_persona]
+
+# Retrieve messages for the selected persona
+messages = eval(personas_config.get(persona_name, "messages"))
+
 
 FORMAT = pyaudio.paInt16
 CHANNELS = config.getint("AUDIO", "channels")
@@ -141,19 +157,12 @@ def wake_word(stream: pyaudio.Stream, porcupine: pvporcupine.Porcupine) -> int:
 
 
 def transcibe_voice(path):
+    global messages
 
     audio_file = open(path, "rb")
     transcript = openai.Audio.transcribe("whisper-1", audio_file)
 
     return transcript
-
-
-messages = [
-    {
-        "role": "system",
-        "content": "You are a helpful AI assistant.",
-    }
-]
 
 
 def transcribe_to_gpt(transcript):
