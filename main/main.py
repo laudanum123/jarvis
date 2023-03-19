@@ -11,7 +11,7 @@ stream = p.open(
 def main():
 
     print(
-        "Jarvis is now listening... (Activate by saying 'Jarvis', press Space to stop TTS or press Ctrl+C to exit)"
+        "Jarvis is now listening... (Activate by saying 'Jarvis' or typing 'r' followed by RETURN , press Space to stop TTS or press Ctrl+C to exit)"
     )
     print("=" * 105)
 
