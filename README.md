@@ -1,5 +1,5 @@
 
-# Jarvis AI Assitant ! <img src="./static/microphone_icon.png" alt="microphone icon" width="25" height="25">
+# Jarvis AI Assistant ! <img src="./static/microphone_icon.png" alt="microphone icon" width="25" height="25">
 
 
 Introducing Jarvis, your personal speech-activated assistant! Our goal is to deliver a cutting-edge bot that springs to life whenever you say "Jarvis", ready to answer your questions and help you get things done. With Jarvis, you can ask questions using your voice, and receive answers via text-to-speech. We're dedicated to providing a seamless and intuitive experience, so you can get the information you need quickly and easily. Whether you're looking for the latest news, checking the weather, or just need a little help with your daily routine, Jarvis is here to assist you every step of the way.
