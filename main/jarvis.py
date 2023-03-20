@@ -23,27 +23,6 @@ else:
     import tty
 
 
-def listen_for_keypress(stop_event):
-    if os.name == "nt":
-        while not stop_event.is_set():
-            if msvcrt.kbhit():
-                key = msvcrt.getch().decode("utf-8")
-                if key.lower() == "r":
-                    return
-    else:
-        fd = sys.stdin.fileno()
-        old_settings = termios.tcgetattr(fd)
-        try:
-            tty.setcbreak(sys.stdin.fileno())
-            while not stop_event.is_set():
-                if select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], []):
-                    key = sys.stdin.read(1)
-                    if key.lower() == "r":
-                        return
-        finally:
-            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-
-
 def init_jarvis() -> None:
     """
     Initializes the Jarvis voice assistant and runs the main loop.
@@ -68,20 +47,11 @@ def init_jarvis() -> None:
 
         # Main loop
         while True:
-            # stop_event = threading.Event()
-            # key_listener = threading.Thread(
-            #     target=listen_for_keypress, args=(stop_event,)
-            # )
-            # key_listener.start()
 
             # Listen for the wake word
             keyword_index = wake_word(wake_word_stream, porcupine)
 
-            # stop_event.set()
-            # key_listener.join()
-            keyword_detect = [msvcrt.kbhit() and chr(ord(msvcrt.getch())) if os.name == "nt" else sys.stdin.read(1)]
-
-            if keyword_index >= 0 or "r" in keyword_detect:
+            if keyword_index >= 0:
                 # Record the user's question
                 frames = record_question(p)
 
