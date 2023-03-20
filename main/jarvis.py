@@ -1,9 +1,7 @@
 import tts
 import pvporcupine
 import pyaudio
-import threading
 import os
-import select
 
 
 from utilities import (
