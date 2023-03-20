@@ -1,6 +1,7 @@
 import os
 import configparser
 import platform
+import re
 import subprocess
 
 # Read configuration file
@@ -38,19 +39,21 @@ def speak(text: str, speak_condition: bool = True) -> None:
     """
     if operating_system == "Windows":
         # Split text into sentences
-        text = text.split(".")
+        text = re.split('[?.,!]', text)
 
-        # Speak each sentence until speak_condition is False
-        while speak_condition:
-            for sentence in text:
-                # Check for key press to stop speaking
-                if msvcrt.kbhit():
-                    if ord(msvcrt.getch()) == 32:  # 32 is the ASCII code for space
-                        speak_condition = False
-                        break
-                else:
-                    engine.say(sentence)
-                    engine.runAndWait()
+        # Speak each sentence until a key is pressed
+        for sentence in text:
+            # Check for key press to stop speaking
+            if msvcrt.kbhit():
+                if ord(msvcrt.getch()) == 32:  # 32 is the ASCII code for space
+                    break
+            else:
+                engine.say(sentence)
+                engine.runAndWait()
+
+        # Clean up the speech engine
+        engine.stop()
+        engine.runAndWait()
     elif operating_system == "Linux":
         # Split text into sentences
         text = text.split(".")
