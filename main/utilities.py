@@ -92,8 +92,8 @@ def record_question(p: pyaudio.PyAudio) -> list[bytes]:
         channels=CHANNELS,
         format=pyaudio.paInt16,
         input=True,
-        frames_per_buffer=CHUNK,
-        input_device_index=DEVICE_ID,
+        frames_per_buffer=CHUNK
+        # input_device_index=DEVICE_ID,
     )
 
     print(RED + "Recording..." + RESET)
@@ -111,7 +111,6 @@ def record_question(p: pyaudio.PyAudio) -> list[bytes]:
         data = question_stream.read(CHUNK, exception_on_overflow=False)
         rms = np.sqrt(np.mean(np.abs(np.square(np.frombuffer(data, dtype=np.int16)))))
         # If the RMS value is above the silence threshold, start recording
-        print(rms)
         if rms > silence_threshold:
             is_recording = True
             silence_duration = 0
