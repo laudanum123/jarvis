@@ -2,6 +2,7 @@ import tts
 import pvporcupine
 import pyaudio
 import os
+import simpleaudio as sa
 
 
 from utilities import (
@@ -19,6 +20,21 @@ else:
     import sys
     import termios
     import tty
+
+
+def play_sound(file_path: str) -> None:
+    """
+    Play a sound file.
+
+    Args:
+        file_path (str): The path to the sound file.
+
+    Returns:
+        None.
+    """
+    wave_obj = sa.WaveObject.from_wave_file(file_path)
+    play_obj = wave_obj.play()
+    play_obj.wait_done()
 
 
 def init_jarvis() -> None:
@@ -50,8 +66,15 @@ def init_jarvis() -> None:
             keyword_index = wake_word(wake_word_stream, porcupine)
 
             if keyword_index >= 0:
+
+                # Play the start recording sound
+                play_sound("../static/button.wav")
+
                 # Record the user's question
                 frames = record_question(p)
+
+                # Play the end recording sound
+                play_sound("../static/button.wav")
 
                 # Save the recorded audio to a WAV file
                 wave_recorder(frames)
