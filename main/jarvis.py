@@ -2,7 +2,7 @@ import tts
 import pvporcupine
 import pyaudio
 import os
-
+from playsound import playsound
 
 from utilities import (
     p,
@@ -12,13 +12,6 @@ from utilities import (
     transcibe_voice,
     transcribe_to_gpt,
 )
-
-if os.name == "nt":
-    import msvcrt
-else:
-    import sys
-    import termios
-    import tty
 
 
 def init_jarvis() -> None:
@@ -50,8 +43,15 @@ def init_jarvis() -> None:
             keyword_index = wake_word(wake_word_stream, porcupine)
 
             if keyword_index >= 0:
+
+                # Play the start recording sound
+                playsound("./static/button.wav")
+
                 # Record the user's question
                 frames = record_question(p)
+
+                # Play the end recording sound
+                playsound("./static/button.wav")
 
                 # Save the recorded audio to a WAV file
                 wave_recorder(frames)
