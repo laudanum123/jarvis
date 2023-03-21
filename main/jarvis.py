@@ -13,14 +13,6 @@ from utilities import (
     transcribe_to_gpt,
 )
 
-if os.name == "nt":
-    import msvcrt
-else:
-    import sys
-    import termios
-    import tty
-
-
 
 def init_jarvis() -> None:
     """
